@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +12,3 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});

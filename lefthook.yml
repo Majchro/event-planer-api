@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    pint:
+      run: docker compose exec -T app bash -c "./vendor/bin/pint {staged_files}"
+
+pre-push:
+  commands:
+    pest:
+      run: docker compose exec -T app bash -c "./vendor/bin/pest"
