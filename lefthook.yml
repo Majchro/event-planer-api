@@ -1,7 +1,7 @@
 pre-commit:
   commands:
     pint:
-      run: docker compose exec -T app bash -c "./vendor/bin/pint {staged_files}"
+      run: docker compose exec -T app bash -c "./vendor/bin/pint {staged_files}" && git add {staged_files}
 
 pre-push:
   commands:
