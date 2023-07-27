@@ -7,7 +7,7 @@ use App\Data\OrganizationData;
 use App\Enums\OrganizationTier;
 use App\Models\Organization;
 
-it('can create organization', function () {
+it('will create organization', function () {
     $data = OrganizationData::from([
         'name' => 'Test name',
         'tier' => OrganizationTier::Free,
@@ -23,7 +23,7 @@ it('can create organization', function () {
         ]);
 });
 
-it('can update organization', function () {
+it('will update organization', function () {
     $organization = Organization::factory()->create();
     $data = OrganizationData::from([
         'id' => $organization->id,

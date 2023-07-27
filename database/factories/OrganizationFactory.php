@@ -20,6 +20,6 @@ class OrganizationFactory extends Factory
 
     public function tier(OrganizationTier $tier): Factory
     {
-        return $this->state(fn (array $attributes) => ['tier' => $tier]);
+        return $this->state(fn () => ['tier' => $tier]);
     }
 }

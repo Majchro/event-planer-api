@@ -27,7 +27,7 @@ class LoginCommand
 
     private function setOrganizationIdInSession(): void
     {
-        $default_organization = Auth::user()->organizations()->first();
+        $default_organization = Auth::user()->defaultOrganization();
         session(['organization_id' => $default_organization->id]);
     }
 }

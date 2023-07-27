@@ -18,7 +18,7 @@ test('index', function () {
     $organizations = Organization::factory()->count(5)->create();
     $organizations->first()->users()->attach($this->user, ['role' => UserRole::Worker]);
 
-    $this->getJson(route('organization.index'))
+    $this->getJson(route('organizations.index'))
         ->assertStatus(200)
         ->assertJsonCount(1);
 });
@@ -27,7 +27,7 @@ test('show', function () {
     $organization = Organization::factory()->create();
     $organization->users()->attach($this->user, ['role' => UserRole::Worker]);
 
-    $this->getJson(route('organization.show', ['organization' => $organization->id]))
+    $this->getJson(route('organizations.show', ['organization' => $organization->id]))
         ->assertStatus(200)
         ->assertJson([
             'name' => $organization->name,
@@ -41,7 +41,7 @@ test('store', function () {
             ->andReturn(Organization::factory()->make());
     });
 
-    $this->postJson(route('organization.store'), [
+    $this->postJson(route('organizations.store'), [
         'name' => 'New organization',
         'tier' => 1,
     ])
@@ -57,7 +57,7 @@ test('update', function () {
     $organization = Organization::factory()->create();
     $organization->users()->attach($this->user, ['role' => UserRole::Manager]);
 
-    $this->putJson(route('organization.update', ['organization' => $organization->id]), [
+    $this->putJson(route('organizations.update', ['organization' => $organization->id]), [
         'name' => 'Updated organization',
         'tier' => 1,
     ])
@@ -73,7 +73,7 @@ test('delete', function () {
     $organization = Organization::factory()->create();
     $organization->users()->attach($this->user, ['role' => UserRole::Manager]);
 
-    $this->deleteJson(route('organization.destroy', ['organization' => $organization->id]))
+    $this->deleteJson(route('organizations.destroy', ['organization' => $organization->id]))
         ->assertStatus(200)
         ->assertJson(['status' => 'success']);
 });

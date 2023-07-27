@@ -22,20 +22,22 @@ test('worker can view any organizations', function () {
         ->toBeTrue();
 });
 
-test('worker can view organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
-    $policy_result = $this->user->can('view', $this->organization);
+describe('view', function () {
+    test('worker can view organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
+        $policy_result = $this->user->can('view', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
-});
+        expect($policy_result)
+            ->toBeTrue();
+    });
 
-test('worker from another organization cannot view organization', function () {
-    $user = User::factory()->create();
-    $policy_result = $user->cannot('view', $this->organization);
+    test('worker from another organization cannot view organization', function () {
+        $user = User::factory()->create();
+        $policy_result = $user->cannot('view', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
+        expect($policy_result)
+            ->toBeTrue();
+    });
 });
 
 test('anyone can create organization', function () {
@@ -45,66 +47,74 @@ test('anyone can create organization', function () {
         ->toBeTrue();
 });
 
-test('manager can update organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
-    $policy_result = $this->user->can('update', $this->organization);
+describe('update', function () {
+    test('manager can update organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
+        $policy_result = $this->user->can('update', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
+        expect($policy_result)
+            ->toBeTrue();
+    });
+
+    test('worker cannot update organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
+        $policy_result = $this->user->cannot('update', $this->organization);
+
+        expect($policy_result)
+            ->toBeTrue();
+    });
 });
 
-test('worker cannot update organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
-    $policy_result = $this->user->cannot('update', $this->organization);
+describe('delete', function () {
+    test('manager can delete organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
+        $policy_result = $this->user->can('delete', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
+        expect($policy_result)
+            ->toBeTrue();
+    });
+
+    test('worker cannot delete organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
+        $policy_result = $this->user->cannot('delete', $this->organization);
+
+        expect($policy_result)
+            ->toBeTrue();
+    });
 });
 
-test('manager can delete organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
-    $policy_result = $this->user->can('delete', $this->organization);
+describe('restore', function () {
+    test('admin can restore organization', function () {
+        $user = User::factory()->admin()->create();
+        $policy_result = $user->can('restore', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
+        expect($policy_result)
+            ->toBeTrue();
+    });
+
+    test('manager cannot restore organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
+        $policy_result = $this->user->cannot('restore', $this->organization);
+
+        expect($policy_result)
+            ->toBeTrue();
+    });
 });
 
-test('worker cannot delete organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Worker]);
-    $policy_result = $this->user->cannot('delete', $this->organization);
+describe('forceDelete', function () {
+    test('admin can force delete organization', function () {
+        $user = User::factory()->admin()->create();
+        $policy_result = $user->can('forceDelete', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
-});
+        expect($policy_result)
+            ->toBeTrue();
+    });
 
-test('admin can restore organization', function () {
-    $user = User::factory()->admin()->create();
-    $policy_result = $user->can('restore', $this->organization);
+    test('manager cannot force delete organization', function () {
+        $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
+        $policy_result = $this->user->cannot('forceDelete', $this->organization);
 
-    expect($policy_result)
-        ->toBeTrue();
-});
-
-test('manager cannot restore organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
-    $policy_result = $this->user->cannot('restore', $this->organization);
-
-    expect($policy_result)
-        ->toBeTrue();
-});
-
-test('admin can force delete organization', function () {
-    $user = User::factory()->admin()->create();
-    $policy_result = $user->can('forceDelete', $this->organization);
-
-    expect($policy_result)
-        ->toBeTrue();
-});
-
-test('manager cannot force delete organization', function () {
-    $this->organization->users()->attach($this->user, ['role' => UserRole::Manager]);
-    $policy_result = $this->user->cannot('forceDelete', $this->organization);
-
-    expect($policy_result)
-        ->toBeTrue();
+        expect($policy_result)
+            ->toBeTrue();
+    });
 });

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Authentication\LoginController;
 use App\Http\Controllers\Authentication\RegisterController;
-use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\OrganizationsController;
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,5 +26,6 @@ Route::name('auth.')->prefix('auth/')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('organization', OrganizationController::class);
+    Route::apiResource('organizations', OrganizationsController::class);
+    Route::apiResource('tasks', TasksController::class);
 });
