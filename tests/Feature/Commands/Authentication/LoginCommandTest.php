@@ -26,6 +26,17 @@ it('will login user', function () {
         ->toBeTrue();
 });
 
+it('will return false if data is wrong', function () {
+    $data = LoginData::from([
+        'email' => $this->user->email,
+        'password' => 'zaq1@WSX123',
+    ]);
+    (new LoginCommand)->execute($data);
+
+    expect(Auth::check())
+        ->toBeFalse();
+});
+
 it('will set first organization as default', function () {
     $organization = Organization::factory()->create();
     $organization->users()->attach($this->user, ['role' => UserRole::Manager]);
