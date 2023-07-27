@@ -29,7 +29,7 @@ it('will create task', function () {
         ->toMatchArray([
             'title' => 'Test title',
             'description' => 'Test description',
-            'date' => $date->toISOString(),
+            'date' => $date->toIso8601String(),
         ]);
 });
 
